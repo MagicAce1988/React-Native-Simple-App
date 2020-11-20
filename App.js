@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, FlatList} from 'react-native';
+import {View, StyleSheet, FlatList, Alert} from 'react-native';
 import Header from './components/Header';
 import ListItem from './components/ListItem';
 import uuid from 'react-native-uuid';
@@ -15,13 +15,14 @@ const App = () => {
   ]);
 
   const deleteItem = (id) => {
-    console.log('something');
     setItems((prevItems) => prevItems.filter((item) => item.id !== id));
   };
 
-  const addItem = (item) => {
-    if (items.findIndex((listItem) => listItem.text === item) === -1) {
-      setItems((prevItems) => [...prevItems, {id: uuid.v4(), text: item}]);
+  const addItem = (text) => {
+    if (!text) {
+      Alert.alert('Error', 'Please enter an item', {text: 'OK'});
+    } else if (items.findIndex((listItem) => listItem.text === text) === -1) {
+      setItems((prevItems) => [{id: uuid.v4(), text}, ...prevItems]);
     }
   };
 
